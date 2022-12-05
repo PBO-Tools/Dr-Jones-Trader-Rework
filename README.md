@@ -28,7 +28,4 @@ NULL points and Unsafe down-casting issues. Dr Jones Trader (https://steamcommun
 <!-- LICENSE -->
 
 ## License
-
-© 2022 Github.com/sixsoftware
-This work is free. You can redistribute it and/or modify it under the
-terms of the WTFPL License. See http://www.wtfpl.net/ for more details.
+Distributed under the WTFPL License. See `http://www.wtfpl.net` for more information.
