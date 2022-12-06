@@ -1,0 +1,16 @@
+MetaFileClass {
+ Name "{0F788D1DB9A77F25}TM/Trader/imagesets/search.edds"
+ Author "desktop-c8ct5up"
+ ChangeDate -555063115
+ Configurations {
+  TGAResourceClass PC {
+   SourceFile "search.tga"
+  }
+  TGAResourceClass XBOX_ONE : PC {
+  }
+  TGAResourceClass PS4 : PC {
+  }
+  TGAResourceClass LINUX : PC {
+  }
+ }
+}
