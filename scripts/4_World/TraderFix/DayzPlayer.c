@@ -64,7 +64,7 @@ modded class DayZPlayerImplement
 		}
 
 		if (itemHasSpawnedOrStacked > 0 && !itemType.Contains("Ruble"))
-			TraderMessage.PlayerWhite("#tm_some" + " " + itemDisplayNameClient + "\n" + "#tm_added_to_inventory", this);
+			TraderMessage.PlayerWhite("#tm_some" + " " + itemDisplayNameClient + "\n" + "#tm_added_to_inventory", PlayerBase.Cast(this));
 
 		//any leftover or new stacks
 		if (currentAmount > 0 || !hasSomeQuant)
@@ -84,12 +84,12 @@ modded class DayZPlayerImplement
 			}
 			if (newItem)
 			{
-				TraderMessage.PlayerWhite(newItem.GetDisplayName() + "\n" + "#tm_added_to_inventory", this);
+				TraderMessage.PlayerWhite(newItem.GetDisplayName() + "\n" + "#tm_added_to_inventory", PlayerBase.Cast(this));
 			}
 			if (!newItem)
 			{
 				newItem = EntityAI.Cast(GetGame().CreateObjectEx(itemType, GetPosition(), ECE_PLACE_ON_SURFACE));
-				TraderMessage.PlayerWhite(newItem.GetDisplayName() + "\n" + "#tm_was_placed_on_ground", this);
+				TraderMessage.PlayerWhite(newItem.GetDisplayName() + "\n" + "#tm_was_placed_on_ground", PlayerBase.Cast(this));
 				//GetGame().RPCSingleParam(this, TRPCs.RPC_SEND_MENU_BACK, new Param1<bool>(true), true, this.GetIdentity());
 				if (!newItem)
 				{
@@ -159,13 +159,13 @@ modded class DayZPlayerImplement
 
 		if (itemCosts < 0)
 		{
-			TraderMessage.PlayerWhite("#tm_cant_be_bought", this);
+			TraderMessage.PlayerWhite("#tm_cant_be_bought", PlayerBase.Cast(this));
 			return;
 		}
 
 		if (m_Player_CurrencyAmount < itemCosts)
 		{
-			TraderMessage.PlayerWhite("#tm_cant_afford", this);
+			TraderMessage.PlayerWhite("#tm_cant_afford", PlayerBase.Cast(this));
 			return;
 		}
 
@@ -178,7 +178,7 @@ modded class DayZPlayerImplement
 
 			if (!vehicleKeyinHands)
 			{
-				TraderMessage.PlayerWhite("Put the Key you\nwant to duplicate\nin your Hands!", this);
+				TraderMessage.PlayerWhite("Put the Key you\nwant to duplicate\nin your Hands!", PlayerBase.Cast(this));
 				return;
 			}
 
@@ -195,29 +195,29 @@ modded class DayZPlayerImplement
 
 			if (foundVehicles.Count() < 1)
 			{
-				TraderMessage.PlayerWhite("There is no Vehicle\nin the Spawn Area!\nMake sure you was the last Driver!", this);
+				TraderMessage.PlayerWhite("There is no Vehicle\nin the Spawn Area!\nMake sure you was the last Driver!", PlayerBase.Cast(this));
 				return;
 			}
 
 			if (foundVehicles.Count() > 1)
 			{
-				TraderMessage.PlayerWhite("Multiple Vehicles found\nin the Spawn Area!", this);
+				TraderMessage.PlayerWhite("Multiple Vehicles found\nin the Spawn Area!", PlayerBase.Cast(this));
 				return;
 			}
 
 			CarScript carScript;
 			Class.CastTo(carScript, foundVehicles.Get(0));
 
-			vehicleKeyHash = carScript.m_Trader_VehicleKeyHash
+			vehicleKeyHash = carScript.m_Trader_VehicleKeyHash;
 
 			if (canCreateItemInPlayerInventory("VehicleKeyBase", 1))
 			{
-				TraderMessage.PlayerWhite(getItemDisplayName("VehicleKey") + "\n " + "#tm_added_to_inventory", this);
+				TraderMessage.PlayerWhite(getItemDisplayName("VehicleKey") + "\n " + "#tm_added_to_inventory", PlayerBase.Cast(this));
 				vehicleKeyHash = createVehicleKeyInPlayerInventory(vehicleKeyHash);
 			}
 			else
 			{
-				TraderMessage.PlayerWhite("#tm_inventory_full" + "\n" + getItemDisplayName("VehicleKey") + "\n" + "#tm_was_placed_on_ground", this);
+				TraderMessage.PlayerWhite("#tm_inventory_full" + "\n" + getItemDisplayName("VehicleKey") + "\n" + "#tm_was_placed_on_ground", PlayerBase.Cast(this));
 				vehicleKeyHash = spawnVehicleKeyOnGround(vehicleKeyHash);
 				GetGame().RPCSingleParam(this, TRPCs.RPC_SEND_MENU_BACK, new Param1<bool>(false), true, this.GetIdentity());
 			}
@@ -241,7 +241,7 @@ modded class DayZPlayerImplement
 
 			if (blockingObject != "FREE")
 			{
-				TraderMessage.PlayerWhite(getItemDisplayName(blockingObject) + " " + "#tm_way_blocked", this);
+				TraderMessage.PlayerWhite(getItemDisplayName(blockingObject) + " " + "#tm_way_blocked", PlayerBase.Cast(this));
 				return;
 			}
 
@@ -250,7 +250,7 @@ modded class DayZPlayerImplement
 
 			deductPlayerCurrency(itemCosts);
 
-			TraderMessage.PlayerWhite("" + itemDisplayNameClient + "\n" + "#tm_parked_next_to_you", this);
+			TraderMessage.PlayerWhite("" + itemDisplayNameClient + "\n" + "#tm_parked_next_to_you", PlayerBase.Cast(this));
 
 			spawnVehicle(traderUID, itemType, vehicleKeyHash);
 
@@ -306,11 +306,11 @@ modded class DayZPlayerImplement
 			}
 		}
 		if (entity)
-			TraderMessage.PlayerWhite(getItemDisplayName("VehicleKey") + "\n " + "#tm_added_to_inventory", this);
+			TraderMessage.PlayerWhite(getItemDisplayName("VehicleKey") + "\n " + "#tm_added_to_inventory", PlayerBase.Cast(this));
 		if (!entity)
 		{
 			entity = EntityAI.Cast(GetGame().CreateObjectEx(classname, GetPosition(), ECE_PLACE_ON_SURFACE));
-			TraderMessage.PlayerWhite("#tm_inventory_full" + "\n" + getItemDisplayName("VehicleKey") + "\n" + "#tm_was_placed_on_ground", this);
+			TraderMessage.PlayerWhite("#tm_inventory_full" + "\n" + getItemDisplayName("VehicleKey") + "\n" + "#tm_was_placed_on_ground", PlayerBase.Cast(this));
 			if (!entity)
 			{
 				Error("failed to spawn entity "+classname+" , make sure the classname exists and item can be spawned");

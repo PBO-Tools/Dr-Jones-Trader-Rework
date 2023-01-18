@@ -15,7 +15,13 @@
 ## About The Project
 
 
-A mod for the game DayZ (https://www.bohemia.net/games/dayz) has undergone a rework to address a range of issues, including problems with items not appearing in inventory after purchase and issues with NULL points and unsafe down-casting. The mod, called Dr Jones Trader (https://steamcommunity.com/sharedfiles/filedetails/?id=1590841260), has not been updated since February 2021 and is considered abandonware.
+
+A mod for the game DayZ https://www.bohemia.net/games/dayz
+
+This rework fixes which fixes most of the issues related to the mod including items not appearing in your inventory when you buy an item,
+NULL points and Unsafe down-casting issues. 
+Dr Jones Trader (https://steamcommunity.com/sharedfiles/filedetails/?id=1590841260) is abandonware 
+with not being updated since Feb, 2021
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

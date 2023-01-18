@@ -98,7 +98,8 @@ modded class TraderMenu extends UIScriptedMenu
     
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
-		PlayerBase m_Player = g_Game.GetPlayer();
+		PlayerBase m_Player = PlayerBase.Cast(g_Game.GetPlayer());
+
 
 		if ( w == m_SellablesCheckbox )
 		{
@@ -238,7 +239,7 @@ modded class TraderMenu extends UIScriptedMenu
 			if ( previewItem )
 				GetGame().ObjectDelete( previewItem );
 
-			previewItem = GetGame().CreateObject( itemType, "0 0 0", true, false, true );
+			previewItem = EntityAI.Cast(GetGame().CreateObject( itemType, "0 0 0", true, false, true ));
 			string lower = itemType;
 			int leng = -1;
 			string itemName = "";
@@ -246,7 +247,7 @@ modded class TraderMenu extends UIScriptedMenu
 			if(KitIgnoreArray.Find(itemType) == -1 && lower.Contains("kit_"))
             {
                 itemName = itemType.Substring(4,itemType.Length());  
-                previewItemKit = GetGame().CreateObject( itemName, "0 0 0", true, false, true );
+                previewItemKit = EntityAI.Cast(GetGame().CreateObject( itemName, "0 0 0", true, false, true ));
                 m_ItemPreviewWidget.SetItem( previewItemKit );
             }
             else if(KitIgnoreArray.Find(itemType) == -1 && lower.Contains("_kit"))
@@ -255,14 +256,14 @@ modded class TraderMenu extends UIScriptedMenu
                 itemName = itemType.Substring(0,leng);
 				if(lower.Contains("md_camonetshelter"))
 					itemName = "Land_" + itemName;
-                previewItemKit = GetGame().CreateObject( itemName, "0 0 0", true, false, true );
+                previewItemKit = EntityAI.Cast(GetGame().CreateObject( itemName, "0 0 0", true, false, true ));
                 m_ItemPreviewWidget.SetItem( previewItemKit );
             }
 			else if(KitIgnoreArray.Find(itemType) == -1 && lower.Contains("kit"))
             {
                 leng = itemType.Length() - 3;      
                 itemName = itemType.Substring(0,leng);  
-                previewItemKit = GetGame().CreateObject( itemName, "0 0 0", true, false, true );
+                previewItemKit = EntityAI.Cast(GetGame().CreateObject( itemName, "0 0 0", true, false, true ));
                 m_ItemPreviewWidget.SetItem( previewItemKit );
             }
             else
@@ -358,7 +359,8 @@ modded class TraderMenu extends UIScriptedMenu
 				updateItemPreview(itemType);
 			}
 
-			PlayerBase player = g_Game.GetPlayer();
+			PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+			
 			float playerDistanceToTrader = vector.Distance(player.GetPosition(), player.m_Trader_TraderPositions.Get(m_TraderUID));
 			if (playerDistanceToTrader > 1.7)
 				GetGame().GetUIManager().Back();
@@ -376,7 +378,7 @@ modded class TraderMenu extends UIScriptedMenu
 
 	override bool LoadItemsFromFile()
 	{
-		PlayerBase m_Player = g_Game.GetPlayer();
+		PlayerBase m_Player = PlayerBase.Cast(g_Game.GetPlayer());
 
 		m_ListOfTraderItems.Clear();
 		m_ListOfCategoryTraderItems.Clear();

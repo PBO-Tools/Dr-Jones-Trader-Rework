@@ -1,12 +1,3 @@
-////////////////////////////////////////////////////////////////////
-//DeRap: Trader\config.bin
-//Produced from mikero's Dos Tools Dll version 8.90
-//https://mikero.bytex.digital/Downloads
-//'now' is Tue Dec 06 10:29:15 2022 : 'file' last modified on Tue Nov 22 16:18:36 2072
-////////////////////////////////////////////////////////////////////
-
-#define _ARMA_
-
 class CfgMods
 {
 	class Trader
@@ -130,19 +121,6 @@ class CfgVehicles
 	{
 		scope = 2;
 		model = "TM\Trader\Road_Cone.p3d";
-	};
-	class Hoodie_ColorBase;
-	class Hoodie_GraffitiTiles: Hoodie_ColorBase
-	{
-		scope = 2;
-		visibilityModifier = 0.95;
-		hiddenSelectionsTextures[] = {"","","","","TM\Trader\data\hoodie_graffiti_co.paa","TM\Trader\data\hoodie_graffiti_co.paa","TM\Trader\data\hoodie_graffiti_co.paa"};
-	};
-	class Hoodie_DrJ0nes: Hoodie_ColorBase
-	{
-		scope = 2;
-		visibilityModifier = 0.95;
-		hiddenSelectionsTextures[] = {"","","","","TM\Trader\data\hoodie_drj0nes_co.paa","TM\Trader\data\hoodie_drj0nes_co.paa","TM\Trader\data\hoodie_drj0nes_co.paa"};
 	};
 	class VehicleKeyBase: Inventory_Base
 	{
