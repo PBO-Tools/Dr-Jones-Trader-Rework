@@ -57,7 +57,7 @@ class TraderMenu extends UIScriptedMenu
 	
 	void ~TraderMenu()
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase player = g_Game.GetPlayer();
 		player.GetInputController().SetDisabled(false);
 
 		if ( previewItem ) 
@@ -130,7 +130,7 @@ class TraderMenu extends UIScriptedMenu
 				updateItemPreview(itemType);
 			}
 
-			PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+			PlayerBase player = g_Game.GetPlayer();
 			float playerDistanceToTrader = vector.Distance(player.GetPosition(), player.m_Trader_TraderPositions.Get(m_TraderUID));
 			if (playerDistanceToTrader > 1.7)
 				GetGame().GetUIManager().Back();
@@ -177,7 +177,7 @@ class TraderMenu extends UIScriptedMenu
 	{
 		super.OnClick(w, x, y, button);
 
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 		
 		local int row_index = m_ListboxItems.GetSelectedRow();
 		string itemType = m_ListboxItemsClassnames.Get(row_index);
@@ -401,7 +401,7 @@ class TraderMenu extends UIScriptedMenu
 	
 	void updatePlayerCurrencyAmount()
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 
 		m_Player_CurrencyAmount = 0;
 		m_Player_CurrencyAmount = getPlayerCurrencyAmount();
@@ -410,7 +410,7 @@ class TraderMenu extends UIScriptedMenu
 	
 	int getPlayerCurrencyAmount() // duplicate
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 		
 		int currencyAmount = 0;
 		
@@ -440,7 +440,7 @@ class TraderMenu extends UIScriptedMenu
 	
 	bool isInPlayerInventory(string itemClassname, int amount) // duplicate
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 		itemClassname.ToLower();
 		
 		bool isMagazine = false;
@@ -635,7 +635,7 @@ class TraderMenu extends UIScriptedMenu
 		if (!parent)
 			return false;
 
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 
 		if (parent.IsWeapon() || parent.IsMagazine())
 			return true;
@@ -668,11 +668,335 @@ class TraderMenu extends UIScriptedMenu
 			if (attachmentClassname == cfg_magazines[i])
 				return true;
 		}
+
+
+		// Check non-Ammo Attachments (TODO with "Cfg ... randomAttachments")
+		/*
+		string attachmentInventorySlot = GetItemInventorySlot(attachmentClassname);
+		if (attachmentInventorySlot == string.Empty || attachmentInventorySlot == "weaponOptics")
+			return false;
+
+		array<string> attachments_slots = GetItemAttachmentSlots(parentEntity.GetType());
+
+		for (i = 0; i < attachments_slots.Count(); i++)
+		{
+			if (attachments_slots.Get(i) == attachmentInventorySlot)
+				return true;
+		}*/
+
+
 		return false;
 
+
+		/*string attachmentInventorySlot;
+		g_Game.ConfigGetText(CFG_VEHICLESPATH + " " + attachmentClassname + " inventorySlot", attachmentInventorySlot);
+		TraderMessage.PlayerWhite("ITEM: " + attachmentInventorySlot);*/
+
+
+		/*TStringArray searching_in = new TStringArray;
+		searching_in.Insert( CFG_VEHICLESPATH );
+		searching_in.Insert( CFG_WEAPONSPATH );
+		searching_in.Insert( CFG_MAGAZINESPATH );
+
+		array<string> attachments_slots	= new array<string>;
+
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string cfg_name = searching_in.Get( s );
+			string path = cfg_name + " " + parentEntity.GetType();
+
+			if ( GetGame().ConfigIsExisting( path ) )
+			{
+				g_Game.ConfigGetTextArray( path + " attachments", attachments_slots );
+				if ( parentEntity.IsWeapon() )
+				{
+					attachments_slots.Insert( "magazine" );
+				}
+			}
+		}
+		if ( parentEntity.IsWeapon() )
+		{
+			attachments_slots.Insert( "magazine" );
+		}
+
+		for (int i = 0; i < attachments_slots.Count(); i++)
+		{
+			string slot_name = attachments_slots.Get ( i );
+
+			string namePath = "CfgSlots" + " Slot_" + slot_name;
+			GetGame().ConfigGetText( namePath + " name", slot_name );
+
+			TraderMessage.PlayerWhite("HANDS: " + slot_name);
+
+			if (slot_name == attachmentInventorySlot)
+				return true;
+
+			
+			//int cfg_count = GetGame().ConfigGetChildrenCount(namePath);
+			//TraderMessage.PlayerWhite("WOW: " + cfg_count);
+			//for (int j = 0; j < cfg_count; j++)
+			//{
+			//	string childName;
+			//	GetGame().ConfigGetChildName(namePath, j, childName);
+			//	TraderMessage.PlayerWhite("WOWW: " + childName);
+			//}
+		}
+
+		return false;*/
+
+
+		// Check with Ghostentity
+		/*EntityAI entity = g_Game.GetPlayer().SpawnEntityOnGroundPos(attachmentClassname, vector.Zero); 
+		TraderMessage.PlayerWhite("DEBUG: Placed " + entity.GetDisplayName());
+
+		if ( parentEntity.GetInventory() && parentEntity.GetInventory().CanAddAttachment( entity ) )
+		{
+			entity.Delete();
+			return true;
+		}
+
+		entity.Delete();
+		return false;*/
+
+
+		/*
+		//string			type_name = entity.GetType();
+		string			type_name = parentEntity.GetType();
+		TStringArray	cfg_attachments = new TStringArray;
+		
+		string cfg_path;
+		
+		if ( GetGame().ConfigIsExisting(CFG_VEHICLESPATH+" "+type_name) )
+		{
+			cfg_path = CFG_VEHICLESPATH+" "+type_name+" attachments";
+		}
+		else if ( GetGame().ConfigIsExisting(CFG_WEAPONSPATH+" "+type_name) )
+		{
+			cfg_path = CFG_WEAPONSPATH+" "+type_name+" attachments";
+		}
+		else if ( GetGame().ConfigIsExisting(CFG_MAGAZINESPATH+" "+type_name) )
+		{
+			cfg_path = CFG_MAGAZINESPATH+" "+type_name+" attachments";
+		}
+		
+		GetGame().ConfigGetTextArray(cfg_path, cfg_attachments);
+
+		//GetGame().ConfigGetTextArray("cfgVehicles " + type_name + " itemInfo", cfg_attachments);
+		GetGame().ConfigGetTextArray(cfg_path, cfg_attachments);
+
+		for (int i = 0; i < cfg_attachments.Count(); i++)
+		{
+			TraderMessage.PlayerWhite(cfg_attachments[i]);
+
+			if (attachmentClassname == cfg_attachments[i].GetType)
+			return true;
+		}
+
+		return false;*/
+
+		/*string tesstr;
+		TStringArray cfg_attachments = new TStringArray;
+		string type_name = parentEntity.GetType();
+		string path = CFG_WEAPONSPATH + " " + type_name + " chamberableFrom";
+		//int cfg_count = GetGame().ConfigGetChildrenCount(path);
+
+		
+		GetGame().ConfigGetTextArray(path, cfg_attachments);
+		//tesstr = GetGame().ConfigGetTextOut(path);
+		//cfg_attachments.Insert(tesstr);
+
+		TraderMessage.PlayerWhite("(" + cfg_attachments.Count() + ") CFGs: " + path + ":");
+		Print("(" + cfg_attachments.Count() + ") CFGs: " + path + ":");
+
+		for (int i = 0; i < cfg_attachments.Count(); i++)
+		{
+			TraderMessage.PlayerWhite("x   " + cfg_attachments[i]);
+			Print("x   " + cfg_attachments[i]);
+		}
+
+		return false;*/
+	}
+
+	/*string GetItemInventorySlot(string itemClassname)
+	{
+		TStringArray searching_in = new TStringArray;
+		searching_in.Insert( CFG_VEHICLESPATH );
+		searching_in.Insert( CFG_WEAPONSPATH );
+		searching_in.Insert( CFG_MAGAZINESPATH );
+
+		string inventorySlot = string.Empty;
+
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string cfg_name = searching_in.Get( s );
+			string path = cfg_name + " " + itemClassname + " inventorySlot";
+
+			if ( GetGame().ConfigIsExisting( path ) )
+			{
+				g_Game.ConfigGetText( path, inventorySlot );
+
+				return inventorySlot;
+			}
+		}
+
+		return inventorySlot;
+	}
+
+	array<string> GetItemAttachmentSlots(string itemClassname)
+	{
+		TStringArray searching_in = new TStringArray;
+		searching_in.Insert( CFG_VEHICLESPATH );
+		searching_in.Insert( CFG_WEAPONSPATH );
+		searching_in.Insert( CFG_MAGAZINESPATH );
+
+		array<string> attachments_slots	= new array<string>;
+
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string cfg_name = searching_in.Get( s );
+			string path = cfg_name + " " + itemClassname;
+
+			if ( GetGame().ConfigIsExisting( path ) )
+			{
+				g_Game.ConfigGetTextArray( path + " attachments", attachments_slots );
+				//if ( parentEntity.IsWeapon() )
+				//{
+				//	attachments_slots.Insert( "magazine" );
+				//}
+			}
+		}
+		//if ( parentEntity.IsWeapon() )
+		//{
+		//	attachments_slots.Insert( "magazine" );
+		//}
+
+		//TEST();
+
+		return attachments_slots;
+	}*/
+
+	/*void TEST()
+	{
+		string classname = "CZ61";
+
+		TStringArray searching_in = new TStringArray;
+		searching_in.Insert( CFG_VEHICLESPATH );
+		searching_in.Insert( CFG_WEAPONSPATH );
+		searching_in.Insert( CFG_MAGAZINESPATH );
+
+		ref array<array<string>> entrys = new array<array<string>>;
+
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string cfg_name = searching_in.Get( s );
+			string path = cfg_name + " " + classname;
+
+			if ( GetGame().ConfigIsExisting( path ) )
+			{
+				g_Game.ConfigGetTextArray( path + " randomAttachments", entrys );
+
+				for (int i = 0; i < entrys.Count(); i++)
+				{
+					Print("ENTRYS: " + entrys.Get(i));
+				}
+			}
+		}
+	}*/
+
+	/*static void GetBaseConfigClasses( out TStringArray base_classes )
+	{
+		base_classes.Clear();
+		base_classes.Insert(CFG_VEHICLESPATH);
+		base_classes.Insert(CFG_WEAPONSPATH);
+		base_classes.Insert(CFG_MAGAZINESPATH);
+		base_classes.Insert(CFG_RECIPESPATH);
+	}
+
+	static void GetAllConfigClasses( string search_string, out TStringArray filtered_classes, bool only_public = false )
+	{	
+		TStringArray searching_in = new TStringArray;
+		GetBaseConfigClasses( searching_in );
+		
+		filtered_classes.Clear();
+		
+		search_string.ToLower();
+		
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string config_path = searching_in.Get(s);
+			
+			int objects_count = GetGame().ConfigGetChildrenCount(config_path);
+			for (int i = 0; i < objects_count; i++)
+			{
+				string childName;
+				GetGame().ConfigGetChildName(config_path, i, childName);
+	
+				//if ( only_public )
+				//{
+				//	int scope = GetGame().ConfigGetInt( config_path + " " + childName + " scope" );
+				//	if ( scope == 0 )
+				//	{
+				//		continue;
+				//	}
+				//}
+				
+				string nchName = childName;
+				nchName.ToLower();
+	
+				//if ( nchName.Contains(search_string) != -1)
+				//{
+				filtered_classes.Insert(childName);
+				Print("CGFs ChildName: " + childName);
+				
+				int objects_count2 = GetGame().ConfigGetChildrenCount(config_path + " " + childName);
+				for (int i2 = 0; i2 < objects_count2; i2++)
+				{
+					string childName2;
+					GetGame().ConfigGetChildName(config_path + " " + childName, i2, childName2);
+					//GetGame().ConfigGetTextArray(cfg_path, cfg_attachments);
+
+					filtered_classes.Insert(childName2);
+					Print("---CGFs ChildName2: " + childName2);
+				}
+				//}
+			}
+		}
+	}*/
+
+	/*array<string> GetItemSlots(EntityAI e)
+	{
+		TStringArray searching_in = new TStringArray;
+		searching_in.Insert(CFG_VEHICLESPATH);
+		searching_in.Insert(CFG_WEAPONSPATH);
+		searching_in.Insert(CFG_MAGAZINESPATH);
+
+		array<string> attachments_slots	= new array<string>;
+		
+		for ( int s = 0; s < searching_in.Count(); ++s )
+		{
+			string cfg_name = searching_in.Get(s);
+			string path = cfg_name + " " + e.GetType();   
+
+			if ( GetGame().ConfigIsExisting( path ) )
+			{
+				g_Game.ConfigGetTextArray(path + " attachments", attachments_slots);
+				if ( e.IsWeapon() )
+				{
+					attachments_slots.Insert("magazine");
+				}
+				return attachments_slots;
+			}
+		}
+		if ( e.IsWeapon() )
+		{
+			attachments_slots.Insert("magazine");
+		}
+		return attachments_slots;
+	}*/
+	
 	bool LoadFileValues()
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 		
 		m_TraderName.SetText(m_Player.m_Trader_TraderNames.Get(m_TraderID));
 		m_Saldo.SetText(m_Player.m_Trader_CurrencyName + ": ");
@@ -698,7 +1022,7 @@ class TraderMenu extends UIScriptedMenu
 	
 	bool LoadItemsFromFile()
 	{
-		PlayerBase player = PlayerBase.Cast(g_Game.GetPlayer());
+		PlayerBase m_Player = g_Game.GetPlayer();
 		
 		m_ListboxItemsClassnames = new array<string>;
 		m_ListboxItemsQuantity = new array<int>;

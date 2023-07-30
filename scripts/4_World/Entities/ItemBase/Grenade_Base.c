@@ -13,9 +13,7 @@ modded class Grenade_Base extends InventoryItemSuper
 
     bool isInSafezone()
     {
-        //PlayerBase player = getRandomValidPlayer();
-        PlayerBase player = PlayerBase.Cast(getRandomValidPlayer());
-
+        PlayerBase player = getRandomValidPlayer();
 
         if (!player)
             return false;
@@ -36,33 +34,35 @@ modded class Grenade_Base extends InventoryItemSuper
 
         return false;
     }
+
     PlayerBase getRandomValidPlayer()
     {
-    if( GetGame().IsServer() )
-    {
-        ref array<Man> m_Players = new array<Man>;
-        GetGame().GetWorld().GetPlayerList(m_Players);
-
-        for (int j = 0; j < m_Players.Count(); j++)
+        if( GetGame().IsServer() )
         {
-            Player player = Player.Cast(m_Players.Get(j));
-            PlayerBase playerBase = PlayerBase.Cast(player);
-            if (!playerBase)
-                continue;
+            ref array<Man> m_Players = new array<Man>;
+		    GetGame().GetWorld().GetPlayerList(m_Players);
 
-            if (!playerBase.IsAlive())
-                continue;
+            for (int j = 0; j < m_Players.Count(); j++)
+			{
+				PlayerBase player = PlayerBase.Cast(m_Players.Get(j));
+				
+				if (!player)
+					continue;
 
-            if (!playerBase.m_Trader_RecievedAllData)
-                continue;
+                if (!player.IsAlive())
+					continue;
 
-            return playerBase;
+				if (!player.m_Trader_RecievedAllData)
+					continue;
+
+                return player;
+            }
         }
-    }
-    else
-    {
-        return PlayerBase.Cast(GetGame().GetPlayer());
-    }
+        else
+        {
+            return GetGame().GetPlayer();
+        }
 
-    return null;
+        return null;
+    }
 }

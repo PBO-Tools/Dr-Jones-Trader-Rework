@@ -65,7 +65,7 @@ class ActionTrade: ActionInteractBase
 
     void handleTraderMenuOpenRequest()
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 		vector playerPosition = player.GetPosition();
 
 		if (player.m_Trader_RecievedAllData == false)
@@ -86,7 +86,7 @@ class ActionTrade: ActionInteractBase
 
     bool getCanOpenTraderMenu(vector position, int traderUID)
 	{		
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 		bool playerIsInSafezoneRange = getIsInSafezoneRange(position);
 		
 		if (traderUID == -1 && playerIsInSafezoneRange)
@@ -103,7 +103,7 @@ class ActionTrade: ActionInteractBase
 
     int getNearbyTraderUID(vector position)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		for ( int traderUID = 0; traderUID < player.m_Trader_TraderPositions.Count(); traderUID++ )
 		{
@@ -116,7 +116,7 @@ class ActionTrade: ActionInteractBase
 
     bool getIsInSafezoneRange(vector position)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		for ( int traderUID = 0; traderUID < player.m_Trader_TraderPositions.Count(); traderUID++ )
 		{
@@ -129,14 +129,14 @@ class ActionTrade: ActionInteractBase
 
     int getTraderID(int traderUID)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		return player.m_Trader_TraderIDs.Get(traderUID);
 	}
 
     float getDistanceToTrader(vector position, int traderUID)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		return vector.Distance(position, player.m_Trader_TraderPositions.Get(traderUID));
 	}
@@ -148,21 +148,21 @@ class ActionTrade: ActionInteractBase
 
     vector getTraderVehicleSpawnPosition(int traderUID)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		return player.m_Trader_TraderVehicleSpawns.Get(traderUID);
 	}
 
 	vector getTraderVehicleSpawnOrientation(int traderUID)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		return player.m_Trader_TraderVehicleSpawnsOrientation.Get(traderUID);
 	}
 
 	void initializeTraderMenu(int traderUID)
 	{
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = GetGame().GetPlayer();
 
 		player.m_TraderMenu = new TraderMenu;
 		player.m_TraderMenu.m_TraderID = getTraderID(traderUID);
@@ -175,7 +175,7 @@ class ActionTrade: ActionInteractBase
 
 	void openTraderMenu(int traderUID)
 	{
-        PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+        PlayerBase player = GetGame().GetPlayer();
 
 		if ( g_Game.GetUIManager().GetMenu() == NULL )
 		{					
