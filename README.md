@@ -1,14 +1,26 @@
 <p align="center">
-    <img src="https://pbo.tools/assets/images/logo.png" width="512">
+  <img src="https://pbo.tools/assets/images/logo_new.png" width="512" alt="PBO Tools Logo">
 </p>
 
+<h2 align="center">DayZ Trader Fix</h2>
 
-## About this project
-* A mod for the popular game DayZ has been extensively revamped to address several key issues. These improvements include fixing problems where purchased items were not appearing in the inventory and resolving issues related to NULL points and unsafe down-casting. Dr Jones trader mod is now being offically maintained, and as a result, this repository is now archived.
+---
 
+> [!NOTE]
+> **This repository is archived.** Dr. Jones Trader mod is now officially maintained, making this project obsolete. No further updates will be made.
 
-## Discover our Software
-* Discover our PBO obfuscator at https://pbo.tools
-  
+## About
+
+A community fix for the DayZ trader mod addressing several critical issues:
+
+- Purchased items not appearing in inventory
+- NULL pointer exceptions
+- Unsafe down-casting errors
+
+## Discover Our Software
+
+Check out our Enfusion script obfuscator at **[pbo.tools](https://pbo.tools)**.
+
 ## License
-* This software is distributed under GNU General Public License v3.0.
+
+Distributed under the **[GNU General Public License v3.0](./LICENSE)**.
